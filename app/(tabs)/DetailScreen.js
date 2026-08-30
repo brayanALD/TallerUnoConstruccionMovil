@@ -7,41 +7,49 @@ const contactosFicticios = [
     id: "100100",
     nombre: "Carlos Gómez",
     telefono: "3001234567",
+    ciudad: "Medellín",
     },
     {
     id: "200200",
     nombre: "Ana Martínez",
     telefono: "3119876543",
+    ciudad: "Bogotá",
     },
     {
     id: "300300",
     nombre: "Luis Rodríguez",
     telefono: "3205554433",
+    ciudad: "Cali",
     },
     {
     id: "400400",
     nombre: "María López",
     telefono: "3102223344",
+    ciudad: "Barranquilla",
     },
     {
     id: "500500",
     nombre: "Jorge Pérez",
     telefono: "3156667788",
+    ciudad: "Cartagena",
     },
     {
     id: "600600",
     nombre: "Sofía Ramírez",
     telefono: "3124445566",
+    ciudad: "Bucaramanga",
     },
     {
     id: "700700",
     nombre: "Andrés Torres",
     telefono: "3137778899",
+    ciudad: "Pereira",
     },
     {
     id: "800800",
     nombre: "Valentina Castro",
     telefono: "3148889900",
+    ciudad: "Manizales",
     },
 ];
 
