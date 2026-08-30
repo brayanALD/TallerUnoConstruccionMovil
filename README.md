@@ -5,7 +5,7 @@ Aplicación móvil de tres pantallas desarrollada en React Native con Expo y con
 ## Información del Estudiante
 
 * **Nombre completo:** Brayan Stiven Aldana Marcelo
-* **Sistema Operativo de desarrollo:** Ej: Windows 11 / macOS Sonoma / Ubuntu 22.04
+* **Sistema Operativo de desarrollo:** Windows 11
 
 ---
 
