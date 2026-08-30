@@ -1,14 +1,13 @@
-import React from 'react';
 import {
     View,
     Text,
     FlatList,
     TouchableOpacity,
     StyleSheet,
-    Button,
 } from 'react-native';
 
-// Datos de prueba
+import { useRouter } from 'expo-router';
+
 const contactosFicticios = [
     { id: '100100', nombre: 'Carlos Gómez', telefono: '3001234567', ciudad: 'Medellín' },
     { id: '200200', nombre: 'Ana Martínez', telefono: '3119876543', ciudad: 'Bogotá' },
@@ -20,14 +19,15 @@ const contactosFicticios = [
     { id: '800800', nombre: 'Valentina Castro', telefono: '3148889900', ciudad: 'Manizales' },
 ];
 
-export default function HomeScreen({ navigation }) {
+export default function HomeScreen() {
+    const router = useRouter();
+
     return (
     <View style={styles.container}>
 
-      {/* Botón para agregar contacto */}
         <TouchableOpacity
         style={styles.addButton}
-        onPress={() => navigation.navigate('Nuevo')}
+        onPress={() => router.push('/(tabs)/AddScreen')}
         activeOpacity={0.8}
         >
         <Text style={styles.addButtonText}>
@@ -35,7 +35,6 @@ export default function HomeScreen({ navigation }) {
         </Text>
         </TouchableOpacity>
 
-      {/* Lista de contactos */}
         <FlatList
         data={contactosFicticios}
         keyExtractor={(item) => item.id}
@@ -44,9 +43,11 @@ export default function HomeScreen({ navigation }) {
             <TouchableOpacity
             style={styles.card}
             onPress={() =>
-                navigation.navigate('Detalle', {
-                id: item.id,
-                nombre: item.nombre,
+                router.push({
+                pathname: '/(tabs)/DetailScreen',
+                params: {
+                    id: item.id,
+                },
                 })
             }
             activeOpacity={0.8}
@@ -65,26 +66,24 @@ export default function HomeScreen({ navigation }) {
             </TouchableOpacity>
         )}
         />
+
     </View>
     );
 }
 
 const styles = StyleSheet.create({
-  // #1B1B1B
     container: {
     flex: 1,
     padding: 16,
     backgroundColor: '#1B1B1B',
     },
 
-  // #8A2BE2
     addButton: {
     backgroundColor: '#8A2BE2',
     paddingVertical: 15,
     borderRadius: 10,
     marginBottom: 18,
 
-    // Sombra
     elevation: 4,
     shadowColor: '#8A2BE2',
     shadowOffset: {
@@ -95,7 +94,6 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     },
 
-  // #FFFFFF
     addButtonText: {
     color: '#FFFFFF',
     fontSize: 16,
@@ -103,32 +101,27 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     },
 
-  // #FFFFFF 25%
     card: {
     padding: 16,
     backgroundColor: 'rgba(255, 255, 255, 0.25)',
     borderRadius: 10,
     marginBottom: 12,
-
     borderWidth: 1,
     borderColor: 'rgba(255, 255, 255, 0.50)',
     },
 
-  // #FFFFFF
     cardName: {
     fontSize: 17,
     fontWeight: 'bold',
     color: '#FFFFFF',
     },
 
-  // #FFFFFF 50%
     cardPhone: {
     fontSize: 14,
     color: 'rgba(255, 255, 255, 0.50)',
     marginTop: 5,
     },
 
-  // #EE82EE
     cardCity: {
     fontSize: 14,
     color: '#EE82EE',
