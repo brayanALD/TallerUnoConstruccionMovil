@@ -4,8 +4,8 @@ Aplicación móvil de tres pantallas desarrollada en React Native con Expo y con
 
 ## Información del Estudiante
 
-* **Nombre completo:** [Brayan Stiven Aldana Marcelo][cite: 1]
-* **Sistema Operativo de desarrollo:** [Ej: Windows 11 / macOS Sonoma / Ubuntu 22.04][cite: 1]
+* **Nombre completo:** Brayan Stiven Aldana Marcelo
+* **Sistema Operativo de desarrollo:** Ej: Windows 11 / macOS Sonoma / Ubuntu 22.04
 
 ---
 
@@ -22,5 +22,5 @@ Aplicación móvil de tres pantallas desarrollada en React Native con Expo y con
 
 ### 1. Clonar el repositorio
 ```bash
-git clone <https://github.com/brayanALD/TallerUnoConstruccionMovil>
+git clone https://github.com/brayanALD/TallerUnoConstruccionMovil
 cd directorio-contactos
