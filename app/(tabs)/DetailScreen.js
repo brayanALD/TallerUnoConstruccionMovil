@@ -7,73 +7,41 @@ const contactosFicticios = [
     id: "100100",
     nombre: "Carlos Gómez",
     telefono: "3001234567",
-    ciudad: "Medellín",
-    correo: "carlos.gomez@email.com",
-    direccion: "Carrera 43A # 10-25",
-    ocupacion: "Ingeniero de Software",
     },
     {
     id: "200200",
     nombre: "Ana Martínez",
     telefono: "3119876543",
-    ciudad: "Bogotá",
-    correo: "ana.martinez@email.com",
-    direccion: "Calle 85 # 12-45",
-    ocupacion: "Diseñadora Gráfica",
     },
     {
     id: "300300",
     nombre: "Luis Rodríguez",
     telefono: "3205554433",
-    ciudad: "Cali",
-    correo: "luis.rodriguez@email.com",
-    direccion: "Carrera 6 # 15-30",
-    ocupacion: "Administrador",
     },
     {
     id: "400400",
     nombre: "María López",
     telefono: "3102223344",
-    ciudad: "Barranquilla",
-    correo: "maria.lopez@email.com",
-    direccion: "Calle 72 # 53-18",
-    ocupacion: "Contadora",
     },
     {
     id: "500500",
     nombre: "Jorge Pérez",
     telefono: "3156667788",
-    ciudad: "Cartagena",
-    correo: "jorge.perez@email.com",
-    direccion: "Carrera 2 # 34-15",
-    ocupacion: "Gerente Comercial",
     },
     {
     id: "600600",
     nombre: "Sofía Ramírez",
     telefono: "3124445566",
-    ciudad: "Bucaramanga",
-    correo: "sofia.ramirez@email.com",
-    direccion: "Carrera 27 # 42-12",
-    ocupacion: "Arquitecta",
     },
     {
     id: "700700",
     nombre: "Andrés Torres",
     telefono: "3137778899",
-    ciudad: "Pereira",
-    correo: "andres.torres@email.com",
-    direccion: "Calle 19 # 8-40",
-    ocupacion: "Analista de Datos",
     },
     {
     id: "800800",
     nombre: "Valentina Castro",
     telefono: "3148889900",
-    ciudad: "Manizales",
-    correo: "valentina.castro@email.com",
-    direccion: "Carrera 23 # 65-20",
-    ocupacion: "Administradora",
     },
 ];
 
@@ -105,15 +73,6 @@ export default function DetailScreen() {
         <View style={styles.separator} />
             <Text style={styles.label}>Ciudad</Text>
             <Text style={styles.value}>{contacto.ciudad}</Text>
-        <View style={styles.separator} />
-            <Text style={styles.label}>Correo electrónico</Text>
-            <Text style={styles.value}>{contacto.correo}</Text>
-        <View style={styles.separator} />
-            <Text style={styles.label}>Dirección</Text>
-            <Text style={styles.value}>{contacto.direccion}</Text>
-        <View style={styles.separator} />
-            <Text style={styles.label}>Ocupación</Text>
-            <Text style={styles.value}>{contacto.ocupacion}</Text>
         </View>
     </View>
     );
