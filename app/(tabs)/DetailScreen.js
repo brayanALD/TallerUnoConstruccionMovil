@@ -8,9 +8,12 @@ export default function DetailScreen() {
     const { id } = useLocalSearchParams();
     const [contacto, setContacto] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
 
     useEffect(() => {
         const fetchDetalle = async () => {
+            setLoading(true);
+            setError(false);
             try {
                 const docRef = doc(db, 'contactos', id);
                 const docSnap = await getDoc(docRef);
@@ -19,6 +22,7 @@ export default function DetailScreen() {
                 }
             } catch (error) {
                 console.error("Error al obtener el detalle del contacto: ", error);
+                setError(true);
             } finally {
                 setLoading(false);
             }
@@ -36,6 +40,19 @@ export default function DetailScreen() {
                     color="#8A2BE2" 
                     style={{ marginTop: 20 }} 
                 />
+            </View>
+        );
+    }
+
+    // Mostrar mensaje si falló la consulta a Firestore
+    if (error) {
+        return (
+            <View style={styles.container}>
+                <View style={styles.errorCard}>
+                    <Text style={styles.errorText}>
+                        No se pudo cargar el contacto. Verifique su conexión.
+                    </Text>
+                </View>
             </View>
         );
     }

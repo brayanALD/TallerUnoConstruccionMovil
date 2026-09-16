@@ -15,10 +15,12 @@ export default function HomeScreen() {
     const router = useRouter();
     const [contactos, setContactos] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
 
     // Función para obtener los documentos desde Firestore
     const fetchContactos = async () => {
         setLoading(true);
+        setError(false);
         try {
             const querySnapshot = await getDocs(collection(db, 'contactos'));
             const lista = querySnapshot.docs.map((doc) => ({
@@ -28,6 +30,7 @@ export default function HomeScreen() {
             setContactos(lista);
         } catch (error) {
             console.error("Error al obtener los contactos: ", error);
+            setError(true);
         } finally {
             setLoading(false);
         }
@@ -46,6 +49,8 @@ export default function HomeScreen() {
                 style={styles.addButton}
                 onPress={() => router.push('/(tabs)/AddScreen')}
                 activeOpacity={0.8}
+                accessibilityRole="button"
+                accessibilityLabel="Agregar nuevo contacto"
             >
                 <Text style={styles.addButtonText}>
                     Agregar Nuevo Contacto
@@ -54,11 +59,27 @@ export default function HomeScreen() {
 
             {/* Indicador de carga mientras consulta Firestore */}
             {loading ? (
-                <ActivityIndicator 
-                    size="large" 
-                    color="#8A2BE2" 
-                    style={{ marginTop: 20 }} 
+                <ActivityIndicator
+                    size="large"
+                    color="#8A2BE2"
+                    style={{ marginTop: 20 }}
                 />
+            ) : error ? (
+                /* Mensaje y reintento si falló la consulta */
+                <View style={styles.errorContainer}>
+                    <Text style={styles.emptyText}>
+                        No se pudo cargar la lista de contactos.
+                    </Text>
+                    <TouchableOpacity
+                        style={styles.retryButton}
+                        onPress={fetchContactos}
+                        activeOpacity={0.8}
+                        accessibilityRole="button"
+                        accessibilityLabel="Reintentar carga de contactos"
+                    >
+                        <Text style={styles.retryButtonText}>Reintentar</Text>
+                    </TouchableOpacity>
+                </View>
             ) : contactos.length === 0 ? (
                 /* Mensaje si la colección está vacía */
                 <Text style={styles.emptyText}>No hay contactos registrados.</Text>
@@ -80,6 +101,8 @@ export default function HomeScreen() {
                                 })
                             }
                             activeOpacity={0.8}
+                            accessibilityRole="button"
+                            accessibilityLabel={`Ver detalle de ${item.nombre}`}
                         >
                             <Text style={styles.cardName}>
                                 {item.nombre}
@@ -161,5 +184,26 @@ const styles = StyleSheet.create({
         marginTop: 30,
         fontSize: 16,
         color: 'rgba(255, 255, 255, 0.50)',
+    },
+
+    errorContainer: {
+        alignItems: 'center',
+        marginTop: 30,
+    },
+
+    retryButton: {
+        marginTop: 16,
+        paddingVertical: 12,
+        paddingHorizontal: 24,
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: 'rgba(255, 255, 255, 0.35)',
+    },
+
+    retryButtonText: {
+        color: '#EE82EE',
+        fontSize: 16,
+        fontWeight: 'bold',
+        textAlign: 'center',
     },
 });

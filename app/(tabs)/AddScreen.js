@@ -6,6 +6,9 @@ import {
     StyleSheet,
     Alert,
     ActivityIndicator,
+    KeyboardAvoidingView,
+    ScrollView,
+    Platform,
 } from 'react-native';
 
 import { useRouter } from 'expo-router';
@@ -54,78 +57,96 @@ export default function AddScreen() {
     };
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>
-                Agregar Nuevo Contacto
-            </Text>
-
-            <TextInput
-                placeholder="Nombre completo"
-                placeholderTextColor="rgba(255, 255, 255, 0.50)"
-                value={nombre}
-                onChangeText={setNombre}
-                style={styles.input}
-                editable={!guardando}
-            />
-
-            <TextInput
-                placeholder="Teléfono"
-                placeholderTextColor="rgba(255, 255, 255, 0.50)"
-                value={telefono}
-                onChangeText={setTelefono}
-                keyboardType="phone-pad"
-                style={styles.input}
-                editable={!guardando}
-            />
-
-            <TextInput
-                placeholder="Ciudad"
-                placeholderTextColor="rgba(255, 255, 255, 0.50)"
-                value={ciudad}
-                onChangeText={setCiudad}
-                style={styles.input}
-                editable={!guardando}
-            />
-
-            <TouchableOpacity
-                style={[styles.saveButton, guardando && styles.saveButtonDisabled]}
-                onPress={handleSave}
-                activeOpacity={0.8}
-                disabled={guardando}
+        <KeyboardAvoidingView
+            style={styles.container}
+            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        >
+            <ScrollView
+                contentContainerStyle={styles.scrollContent}
+                keyboardShouldPersistTaps="handled"
             >
-                {guardando ? (
-                    <View style={styles.loadingContainer}>
-                        <ActivityIndicator color="#FFFFFF" size="small" />
-                        <Text style={styles.saveButtonText}>
-                            Guardando...
-                        </Text>
-                    </View>
-                ) : (
-                    <Text style={styles.saveButtonText}>
-                        Guardar Contacto
-                    </Text>
-                )}
-            </TouchableOpacity>
-
-            <TouchableOpacity
-                style={styles.cancelButton}
-                onPress={() => router.back()}
-                activeOpacity={0.8}
-                disabled={guardando}
-            >
-                <Text style={styles.cancelButtonText}>
-                    Cancelar
+                <Text style={styles.title}>
+                    Agregar Nuevo Contacto
                 </Text>
-            </TouchableOpacity>
-        </View>
+
+                <TextInput
+                    placeholder="Nombre completo"
+                    placeholderTextColor="rgba(255, 255, 255, 0.50)"
+                    value={nombre}
+                    onChangeText={setNombre}
+                    style={styles.input}
+                    editable={!guardando}
+                    accessibilityLabel="Nombre completo"
+                />
+
+                <TextInput
+                    placeholder="Teléfono"
+                    placeholderTextColor="rgba(255, 255, 255, 0.50)"
+                    value={telefono}
+                    onChangeText={setTelefono}
+                    keyboardType="phone-pad"
+                    style={styles.input}
+                    editable={!guardando}
+                    accessibilityLabel="Teléfono"
+                />
+
+                <TextInput
+                    placeholder="Ciudad"
+                    placeholderTextColor="rgba(255, 255, 255, 0.50)"
+                    value={ciudad}
+                    onChangeText={setCiudad}
+                    style={styles.input}
+                    editable={!guardando}
+                    accessibilityLabel="Ciudad"
+                />
+
+                <TouchableOpacity
+                    style={[styles.saveButton, guardando && styles.saveButtonDisabled]}
+                    onPress={handleSave}
+                    activeOpacity={0.8}
+                    disabled={guardando}
+                    accessibilityRole="button"
+                    accessibilityLabel="Guardar contacto"
+                >
+                    {guardando ? (
+                        <View style={styles.loadingContainer}>
+                            <ActivityIndicator color="#FFFFFF" size="small" />
+                            <Text style={styles.saveButtonText}>
+                                Guardando...
+                            </Text>
+                        </View>
+                    ) : (
+                        <Text style={styles.saveButtonText}>
+                            Guardar Contacto
+                        </Text>
+                    )}
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    style={styles.cancelButton}
+                    onPress={() => router.back()}
+                    activeOpacity={0.8}
+                    disabled={guardando}
+                    accessibilityRole="button"
+                    accessibilityLabel="Cancelar"
+                >
+                    <Text style={styles.cancelButtonText}>
+                        Cancelar
+                    </Text>
+                </TouchableOpacity>
+            </ScrollView>
+        </KeyboardAvoidingView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 20,
         backgroundColor: '#1B1B1B',
+    },
+
+    scrollContent: {
+        padding: 20,
     },
 
     title: {
