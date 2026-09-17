@@ -17,6 +17,11 @@ export default function TabsLayout() {
         name="DetailScreen"
         options={{ title: 'Detalle del contacto' }}
         />
+
+        <Stack.Screen
+        name="EditScreen"
+        options={{ title: 'Editar contacto' }}
+        />
     </Stack>
     );
 }

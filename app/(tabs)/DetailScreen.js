@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
-import { useLocalSearchParams } from "expo-router";
-import { doc, getDoc } from "firebase/firestore";
+import { View, Text, StyleSheet, ActivityIndicator, TouchableOpacity, Alert } from "react-native";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import { doc, getDoc, deleteDoc } from "firebase/firestore";
 import { db } from "../../config/firebase";
 
 export default function DetailScreen() {
     const { id } = useLocalSearchParams();
+    const router = useRouter();
     const [contacto, setContacto] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
+    const [eliminando, setEliminando] = useState(false);
 
     useEffect(() => {
         const fetchDetalle = async () => {
@@ -30,6 +32,35 @@ export default function DetailScreen() {
 
         fetchDetalle();
     }, [id]);
+
+    const handleDelete = () => {
+        Alert.alert(
+            'Eliminar contacto',
+            '¿Está seguro de que desea eliminar este contacto? Esta acción no se puede deshacer.',
+            [
+                { text: 'Cancelar', style: 'cancel' },
+                {
+                    text: 'Eliminar',
+                    style: 'destructive',
+                    onPress: async () => {
+                        setEliminando(true);
+                        try {
+                            await deleteDoc(doc(db, 'contactos', id));
+                            router.back();
+                        } catch (deleteError) {
+                            Alert.alert(
+                                'Error',
+                                'No se pudo eliminar el contacto. Inténtelo de nuevo.'
+                            );
+                            console.error("Error al eliminar el contacto: ", deleteError);
+                        } finally {
+                            setEliminando(false);
+                        }
+                    },
+                },
+            ]
+        );
+    };
 
     // Mostrar indicador de carga mientras se obtienen los datos
     if (loading) {
@@ -84,6 +115,40 @@ export default function DetailScreen() {
                 <Text style={styles.label}>Ciudad</Text>
                 <Text style={styles.value}>{contacto.ciudad}</Text>
             </View>
+
+            <TouchableOpacity
+                style={styles.editButton}
+                onPress={() =>
+                    router.push({
+                        pathname: '/(tabs)/EditScreen',
+                        params: { id },
+                    })
+                }
+                activeOpacity={0.8}
+                disabled={eliminando}
+                accessibilityRole="button"
+                accessibilityLabel="Editar contacto"
+            >
+                <Text style={styles.editButtonText}>Editar</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+                style={[styles.deleteButton, eliminando && styles.deleteButtonDisabled]}
+                onPress={handleDelete}
+                activeOpacity={0.8}
+                disabled={eliminando}
+                accessibilityRole="button"
+                accessibilityLabel="Eliminar contacto"
+            >
+                {eliminando ? (
+                    <View style={styles.loadingContainer}>
+                        <ActivityIndicator color="#FFFFFF" size="small" />
+                        <Text style={styles.deleteButtonText}>Eliminando...</Text>
+                    </View>
+                ) : (
+                    <Text style={styles.deleteButtonText}>Eliminar</Text>
+                )}
+            </TouchableOpacity>
         </View>
     );
 }
@@ -141,5 +206,53 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         color: "#FF6B6B",
         textAlign: "center",
+    },
+
+    editButton: {
+        backgroundColor: '#8A2BE2',
+        paddingVertical: 15,
+        borderRadius: 10,
+        marginTop: 20,
+        elevation: 4,
+        shadowColor: '#8A2BE2',
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.35,
+        shadowRadius: 5,
+    },
+
+    editButtonText: {
+        color: '#FFFFFF',
+        fontSize: 16,
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+
+    deleteButton: {
+        paddingVertical: 15,
+        borderRadius: 10,
+        marginTop: 12,
+        borderWidth: 1,
+        borderColor: '#FF6B6B',
+    },
+
+    deleteButtonDisabled: {
+        opacity: 0.6,
+    },
+
+    deleteButtonText: {
+        color: '#FF6B6B',
+        fontSize: 16,
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+
+    loadingContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 10,
     },
 });
