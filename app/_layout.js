@@ -1,28 +1,20 @@
-import { Tabs } from 'expo-router';
+import { Stack } from 'expo-router';
 
-export default function TabsLayout() {
-  return (
-    <Tabs>
-      <Tabs.Screen
-        name="HomeScreen"
-        options={{
-          title: 'Inicio',
-        }}
-      />
+export default function RootLayout() {
+    return (
+    <Stack>
+        <Stack.Screen
+        name="(tabs)"
+        options={{ headerShown: false }}
+        />
 
-      <Tabs.Screen
-        name="AddScreen"
+        <Stack.Screen
+        name="modal"
         options={{
-          title: 'Agregar',
+            presentation: 'modal',
+            title: 'Modal',
         }}
-      />
-
-      <Tabs.Screen
-        name="DetailScreen"
-        options={{
-          title: 'Detalle',
-        }}
-      />
-    </Tabs>
-  );
+        />
+    </Stack>
+    );
 }

@@ -14,7 +14,7 @@ import {
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { collection, addDoc } from 'firebase/firestore';
-import { db } from '../config/firebase';
+import { db } from '../../config/firebase';
 
 export default function AddScreen() {
     const router = useRouter();

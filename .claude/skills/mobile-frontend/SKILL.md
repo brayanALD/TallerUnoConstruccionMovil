@@ -15,7 +15,7 @@ Antes de tocar código, identifica lo que ya existe en el proyecto:
 - **Librería de componentes:** los primitivos de React Native (`View`, `Text`, `TextInput`, `FlatList`, `TouchableOpacity`, etc.) usados directamente; revisa `components/` y `components/ui/` por si hay componentes reutilizables ya creados (ej. `themed-text.tsx`, `themed-view.tsx`, `icon-symbol`).
 - **Sistema de estilos:** `StyleSheet.create` por archivo, colores hardcodeados o tokens en `constants/theme.ts`.
 - **Gestión de estado:** `useState`/`useEffect`/`useCallback` locales por pantalla; no hay estado global (Redux/Zustand/Context) salvo que lo encuentres — confírmalo con Grep antes de asumir que hace falta uno.
-- **Comunicación con APIs:** Firebase/Firestore (`app/config/firebase.js`), llamadas directas (`getDocs`, `getDoc`, `addDoc`) dentro de cada pantalla.
+- **Comunicación con APIs:** Firebase/Firestore (`config/firebase.js`, fuera de `app/` para que Expo Router no lo trate como ruta), llamadas directas (`getDocs`, `getDoc`, `addDoc`) dentro de cada pantalla.
 - **Testing:** busca `*.test.js`, `*.spec.js`, `__tests__`; documenta si no existen.
 - **Convenciones:** nombres de archivos, orden de imports, idioma de textos (español), manejo de errores con `Alert`/`console.error`.
 
