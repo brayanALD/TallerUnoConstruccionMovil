@@ -13,53 +13,34 @@ import {
 
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../config/firebase';
+import { useContacto } from '../../hooks/useContacto';
+import { validarContacto } from '../../utils/validarContacto';
 
 export default function EditScreen() {
     const router = useRouter();
     const { id } = useLocalSearchParams();
+    const { contacto, loading: cargando, error } = useContacto(id);
 
     const [nombre, setNombre] = useState('');
     const [telefono, setTelefono] = useState('');
     const [ciudad, setCiudad] = useState('');
-    const [cargando, setCargando] = useState(true);
-    const [error, setError] = useState(false);
     const [guardando, setGuardando] = useState(false);
 
+    // Precargar el formulario una vez que el contacto termina de cargar
     useEffect(() => {
-        const fetchContacto = async () => {
-            setCargando(true);
-            setError(false);
-            try {
-                const docRef = doc(db, 'contactos', id);
-                const docSnap = await getDoc(docRef);
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-                    setNombre(data.nombre ?? '');
-                    setTelefono(data.telefono ?? '');
-                    setCiudad(data.ciudad ?? '');
-                } else {
-                    setError(true);
-                }
-            } catch (fetchError) {
-                console.error("Error al obtener el contacto para editar: ", fetchError);
-                setError(true);
-            } finally {
-                setCargando(false);
-            }
-        };
-
-        fetchContacto();
-    }, [id]);
+        if (contacto) {
+            setNombre(contacto.nombre ?? '');
+            setTelefono(contacto.telefono ?? '');
+            setCiudad(contacto.ciudad ?? '');
+        }
+    }, [contacto]);
 
     const handleSave = async () => {
-        // Validar que ningún campo esté vacío
-        if (!nombre.trim() || !telefono.trim() || !ciudad.trim()) {
-            Alert.alert(
-                'Campos incompletos',
-                'Por favor diligencie todos los campos antes de guardar.'
-            );
+        const mensajeError = validarContacto({ nombre, telefono, ciudad });
+        if (mensajeError) {
+            Alert.alert('Datos inválidos', mensajeError);
             return;
         }
 
@@ -103,6 +84,16 @@ export default function EditScreen() {
                     <Text style={styles.errorText}>
                         No se pudo cargar el contacto. Verifique su conexión.
                     </Text>
+                </View>
+            </View>
+        );
+    }
+
+    if (!contacto) {
+        return (
+            <View style={styles.container}>
+                <View style={styles.errorCard}>
+                    <Text style={styles.errorText}>Contacto no encontrado.</Text>
                 </View>
             </View>
         );

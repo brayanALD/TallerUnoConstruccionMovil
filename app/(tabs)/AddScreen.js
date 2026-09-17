@@ -15,6 +15,7 @@ import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../../config/firebase';
+import { validarContacto } from '../../utils/validarContacto';
 
 export default function AddScreen() {
     const router = useRouter();
@@ -25,12 +26,9 @@ export default function AddScreen() {
     const [guardando, setGuardando] = useState(false);
 
     const handleSave = async () => {
-        // Validar que ningún campo esté vacío
-        if (!nombre.trim() || !telefono.trim() || !ciudad.trim()) {
-            Alert.alert(
-                'Campos incompletos', 
-                'Por favor diligencie todos los campos antes de guardar.'
-            );
+        const mensajeError = validarContacto({ nombre, telefono, ciudad });
+        if (mensajeError) {
+            Alert.alert('Datos inválidos', mensajeError);
             return;
         }
 

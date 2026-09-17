@@ -1,37 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, ActivityIndicator, TouchableOpacity, Alert } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { doc, getDoc, deleteDoc } from "firebase/firestore";
+import { doc, deleteDoc } from "firebase/firestore";
 import { db } from "../../config/firebase";
+import { useContacto } from "../../hooks/useContacto";
 
 export default function DetailScreen() {
     const { id } = useLocalSearchParams();
     const router = useRouter();
-    const [contacto, setContacto] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(false);
+    const { contacto, loading, error } = useContacto(id);
     const [eliminando, setEliminando] = useState(false);
-
-    useEffect(() => {
-        const fetchDetalle = async () => {
-            setLoading(true);
-            setError(false);
-            try {
-                const docRef = doc(db, 'contactos', id);
-                const docSnap = await getDoc(docRef);
-                if (docSnap.exists()) {
-                    setContacto(docSnap.data());
-                }
-            } catch (error) {
-                console.error("Error al obtener el detalle del contacto: ", error);
-                setError(true);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchDetalle();
-    }, [id]);
 
     const handleDelete = () => {
         Alert.alert(

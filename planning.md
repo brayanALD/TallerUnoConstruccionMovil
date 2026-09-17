@@ -26,12 +26,12 @@
 
 3. Ruta registrada en `app/(tabs)/_layout.js` (`Stack.Screen name="EditScreen"`).
 
-## Fase 2 — Robustez y validación
+## Fase 2 — Robustez y validación ✅ completada
 
-- Validación de formulario más estricta (formato de teléfono, longitud de nombre) en Add/Edit.
-- Manejo de errores consistente (hoy cada pantalla repite su propio patrón loading/error) → extraer un hook `useContactos()` / `useContacto(id)` para no duplicar lógica de Firestore.
-- Estados vacíos y de error ya existen en Home; replicarlos en la nueva lógica.
-- Confirmar reglas de seguridad de Firestore (`firestore.rules`) — hoy no hay archivo de reglas visible; revisar que no queden abiertas en modo test indefinidamente.
+- Validación de formulario más estricta ✅ — `utils/validarContacto.js` centraliza las reglas (nombre ≥ 3 caracteres, teléfono con formato válido de 7-15 dígitos, ciudad ≥ 2 caracteres) y la usan tanto `AddScreen.js` como `EditScreen.js`.
+- Manejo de errores consistente ✅ — se extrajeron `hooks/useContactos.js` (lista, con `refetch` y recarga en `useFocusEffect`) y `hooks/useContacto.js` (contacto individual, con `refetch`). `HomeScreem.js`, `DetailScreen.js` y `EditScreen.js` ya no repiten el patrón loading/error/fetch.
+- Estados vacíos y de error ✅ — `EditScreen.js` ahora también distingue "cargando" / "error de conexión" / "contacto no encontrado", igual que `DetailScreen.js`.
+- Reglas de seguridad de Firestore ⚠️ — se agregó `firestore.rules` (raíz del proyecto) validando la forma y longitud mínima de los campos (`nombre`, `telefono`, `ciudad`) para reemplazar el modo de prueba abierto sin expiración. **Falta desplegarlas**: no hay `firebase.json`/`.firebaserc` en el repo ni acceso a la consola de Firebase del proyecto, así que hay que subirlas manualmente (`firebase deploy --only firestore:rules` o pegarlas en la consola). Además, como la app no tiene Firebase Auth, las reglas no restringen por usuario — si se requiere eso, es trabajo adicional fuera de este plan.
 
 ## Fase 3 — UX / UI
 

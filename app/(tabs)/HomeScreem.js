@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 import {
     View,
     Text,
@@ -7,43 +7,14 @@ import {
     StyleSheet,
     ActivityIndicator,
 } from 'react-native';
-import { useRouter, useFocusEffect } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { collection, getDocs } from 'firebase/firestore';
-import { db } from '../../config/firebase';
+import { useContactos } from '../../hooks/useContactos';
 
 export default function HomeScreen() {
     const router = useRouter();
     const insets = useSafeAreaInsets();
-    const [contactos, setContactos] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(false);
-
-    // Función para obtener los documentos desde Firestore
-    const fetchContactos = async () => {
-        setLoading(true);
-        setError(false);
-        try {
-            const querySnapshot = await getDocs(collection(db, 'contactos'));
-            const lista = querySnapshot.docs.map((doc) => ({
-                id: doc.id,
-                ...doc.data(),
-            }));
-            setContactos(lista);
-        } catch (error) {
-            console.error("Error al obtener los contactos: ", error);
-            setError(true);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    // Recargar los contactos cada vez que la pantalla pasa al primer plano
-    useFocusEffect(
-        useCallback(() => {
-            fetchContactos();
-        }, [])
-    );
+    const { contactos, loading, error, refetch } = useContactos();
 
     return (
         <View style={[styles.container, { paddingTop: insets.top + 16 }]}>
@@ -74,7 +45,7 @@ export default function HomeScreen() {
                     </Text>
                     <TouchableOpacity
                         style={styles.retryButton}
-                        onPress={fetchContactos}
+                        onPress={refetch}
                         activeOpacity={0.8}
                         accessibilityRole="button"
                         accessibilityLabel="Reintentar carga de contactos"
