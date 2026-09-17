@@ -8,11 +8,13 @@ import {
     ActivityIndicator,
 } from 'react-native';
 import { useRouter, useFocusEffect } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../config/firebase';
 
 export default function HomeScreen() {
     const router = useRouter();
+    const insets = useSafeAreaInsets();
     const [contactos, setContactos] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
@@ -44,7 +46,7 @@ export default function HomeScreen() {
     );
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, { paddingTop: insets.top + 16 }]}>
             <TouchableOpacity
                 style={styles.addButton}
                 onPress={() => router.push('/(tabs)/AddScreen')}
