@@ -4,6 +4,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { deleteContacto } from "../../services/contactos";
 import { useContacto } from "../../hooks/useContacto";
 import { estilosComunes } from "../../constants/estilosComunes";
+import { COLORES } from "../../constants/colores";
 
 export default function DetailScreen() {
     const { id } = useLocalSearchParams();
@@ -44,10 +45,10 @@ export default function DetailScreen() {
     if (loading) {
         return (
             <View style={styles.container}>
-                <ActivityIndicator 
-                    size="large" 
-                    color="#8A2BE2" 
-                    style={{ marginTop: 20 }} 
+                <ActivityIndicator
+                    size="large"
+                    color={COLORES.acento}
+                    style={{ marginTop: 20 }}
                 />
             </View>
         );
@@ -95,7 +96,7 @@ export default function DetailScreen() {
             </View>
 
             <TouchableOpacity
-                style={styles.editButton}
+                style={[styles.editButton, estilosComunes.sombraBotonPrimario]}
                 onPress={() =>
                     router.push({
                         pathname: '/(tabs)/EditScreen',
@@ -120,7 +121,7 @@ export default function DetailScreen() {
             >
                 {eliminando ? (
                     <View style={estilosComunes.loadingContainer}>
-                        <ActivityIndicator color="#FFFFFF" size="small" />
+                        <ActivityIndicator color={COLORES.texto} size="small" />
                         <Text style={styles.deleteButtonText}>Eliminando...</Text>
                     </View>
                 ) : (
@@ -135,13 +136,13 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
-        backgroundColor: "#1B1B1B",
+        backgroundColor: COLORES.fondo,
     },
 
     title: {
         fontSize: 24,
         fontWeight: "bold",
-        color: "#FFFFFF",
+        color: COLORES.texto,
         marginBottom: 20,
     },
 
@@ -162,7 +163,7 @@ const styles = StyleSheet.create({
     value: {
         fontSize: 18,
         fontWeight: "bold",
-        color: "#FFFFFF",
+        color: COLORES.texto,
     },
 
     separator: {
@@ -172,22 +173,14 @@ const styles = StyleSheet.create({
     },
 
     editButton: {
-        backgroundColor: '#8A2BE2',
+        backgroundColor: COLORES.acento,
         paddingVertical: 15,
         borderRadius: 10,
         marginTop: 20,
-        elevation: 4,
-        shadowColor: '#8A2BE2',
-        shadowOffset: {
-            width: 0,
-            height: 3,
-        },
-        shadowOpacity: 0.35,
-        shadowRadius: 5,
     },
 
     editButtonText: {
-        color: '#FFFFFF',
+        color: COLORES.texto,
         fontSize: 16,
         fontWeight: 'bold',
         textAlign: 'center',
@@ -198,7 +191,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginTop: 12,
         borderWidth: 1,
-        borderColor: '#FF6B6B',
+        borderColor: COLORES.error,
     },
 
     deleteButtonDisabled: {
@@ -206,7 +199,7 @@ const styles = StyleSheet.create({
     },
 
     deleteButtonText: {
-        color: '#FF6B6B',
+        color: COLORES.error,
         fontSize: 16,
         fontWeight: 'bold',
         textAlign: 'center',

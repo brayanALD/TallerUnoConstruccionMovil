@@ -12,6 +12,7 @@ import { updateContacto } from '../../services/contactos';
 import { useContacto } from '../../hooks/useContacto';
 import { validarContacto } from '../../utils/validarContacto';
 import { estilosComunes } from '../../constants/estilosComunes';
+import { COLORES } from '../../constants/colores';
 import ContactoForm from '../../components/ContactoForm';
 
 export default function EditScreen() {
@@ -67,7 +68,7 @@ export default function EditScreen() {
             <View style={styles.container}>
                 <ActivityIndicator
                     size="large"
-                    color="#8A2BE2"
+                    color={COLORES.acento}
                     style={{ marginTop: 20 }}
                 />
             </View>
@@ -118,7 +119,7 @@ export default function EditScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#1B1B1B',
+        backgroundColor: COLORES.fondo,
     },
 
     errorCardMargin: {

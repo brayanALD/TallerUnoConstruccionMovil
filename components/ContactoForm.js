@@ -10,6 +10,7 @@ import {
     Platform,
 } from 'react-native';
 import { estilosComunes } from '../constants/estilosComunes';
+import { COLORES } from '../constants/colores';
 
 export default function ContactoForm({
     title,
@@ -71,7 +72,7 @@ export default function ContactoForm({
                 />
 
                 <TouchableOpacity
-                    style={[styles.saveButton, guardando && styles.saveButtonDisabled]}
+                    style={[styles.saveButton, estilosComunes.sombraBotonPrimario, guardando && styles.saveButtonDisabled]}
                     onPress={onSave}
                     activeOpacity={0.8}
                     disabled={guardando}
@@ -80,7 +81,7 @@ export default function ContactoForm({
                 >
                     {guardando ? (
                         <View style={estilosComunes.loadingContainer}>
-                            <ActivityIndicator color="#FFFFFF" size="small" />
+                            <ActivityIndicator color={COLORES.texto} size="small" />
                             <Text style={styles.saveButtonText}>
                                 {savingLabel}
                             </Text>
@@ -112,7 +113,7 @@ export default function ContactoForm({
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#1B1B1B',
+        backgroundColor: COLORES.fondo,
     },
 
     scrollContent: {
@@ -122,7 +123,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 24,
         fontWeight: 'bold',
-        color: '#FFFFFF',
+        color: COLORES.texto,
         marginBottom: 25,
     },
 
@@ -133,23 +134,15 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 14,
         marginBottom: 16,
-        color: '#FFFFFF',
+        color: COLORES.texto,
         fontSize: 16,
     },
 
     saveButton: {
-        backgroundColor: '#8A2BE2',
+        backgroundColor: COLORES.acento,
         paddingVertical: 15,
         borderRadius: 10,
         marginTop: 5,
-        elevation: 4,
-        shadowColor: '#8A2BE2',
-        shadowOffset: {
-            width: 0,
-            height: 3,
-        },
-        shadowOpacity: 0.35,
-        shadowRadius: 5,
     },
 
     saveButtonDisabled: {
@@ -159,7 +152,7 @@ const styles = StyleSheet.create({
     },
 
     saveButtonText: {
-        color: '#FFFFFF',
+        color: COLORES.texto,
         fontSize: 16,
         fontWeight: 'bold',
         textAlign: 'center',
@@ -174,7 +167,7 @@ const styles = StyleSheet.create({
     },
 
     cancelButtonText: {
-        color: '#EE82EE',
+        color: COLORES.acentoSecundario,
         fontSize: 16,
         fontWeight: 'bold',
         textAlign: 'center',

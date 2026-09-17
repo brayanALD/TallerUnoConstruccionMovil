@@ -13,6 +13,7 @@ import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useContactos } from '../../hooks/useContactos';
 import { estilosComunes } from '../../constants/estilosComunes';
+import { COLORES } from '../../constants/colores';
 
 export default function HomeScreen() {
     const router = useRouter();
@@ -34,7 +35,7 @@ export default function HomeScreen() {
     return (
         <View style={[styles.container, { paddingTop: insets.top + 16 }]}>
             <TouchableOpacity
-                style={styles.addButton}
+                style={[styles.addButton, estilosComunes.sombraBotonPrimario]}
                 onPress={() => router.push('/(tabs)/AddScreen')}
                 activeOpacity={0.8}
                 accessibilityRole="button"
@@ -63,7 +64,7 @@ export default function HomeScreen() {
             {loading ? (
                 <ActivityIndicator
                     size="large"
-                    color="#8A2BE2"
+                    color={COLORES.acento}
                     style={{ marginTop: 20 }}
                 />
             ) : error ? (
@@ -102,8 +103,8 @@ export default function HomeScreen() {
                         <RefreshControl
                             refreshing={refreshing}
                             onRefresh={() => refetch({ silent: true })}
-                            tintColor="#8A2BE2"
-                            colors={['#8A2BE2']}
+                            tintColor={COLORES.acento}
+                            colors={[COLORES.acento]}
                         />
                     }
                     renderItem={({ item }) => (
@@ -144,26 +145,18 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 16,
-        backgroundColor: '#1B1B1B',
+        backgroundColor: COLORES.fondo,
     },
 
     addButton: {
-        backgroundColor: '#8A2BE2',
+        backgroundColor: COLORES.acento,
         paddingVertical: 15,
         borderRadius: 10,
         marginBottom: 18,
-        elevation: 4,
-        shadowColor: '#8A2BE2',
-        shadowOffset: {
-            width: 0,
-            height: 3,
-        },
-        shadowOpacity: 0.35,
-        shadowRadius: 5,
     },
 
     addButtonText: {
-        color: '#FFFFFF',
+        color: COLORES.texto,
         fontSize: 16,
         fontWeight: 'bold',
         textAlign: 'center',
@@ -176,7 +169,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 14,
         marginBottom: 16,
-        color: '#FFFFFF',
+        color: COLORES.texto,
         fontSize: 16,
     },
 
@@ -192,7 +185,7 @@ const styles = StyleSheet.create({
     cardName: {
         fontSize: 17,
         fontWeight: 'bold',
-        color: '#FFFFFF',
+        color: COLORES.texto,
     },
 
     cardPhone: {
@@ -203,7 +196,7 @@ const styles = StyleSheet.create({
 
     cardCity: {
         fontSize: 14,
-        color: '#EE82EE',
+        color: COLORES.acentoSecundario,
         marginTop: 5,
     },
 
@@ -233,7 +226,7 @@ const styles = StyleSheet.create({
     },
 
     retryButtonText: {
-        color: '#EE82EE',
+        color: COLORES.acentoSecundario,
         fontSize: 16,
         fontWeight: 'bold',
         textAlign: 'center',
