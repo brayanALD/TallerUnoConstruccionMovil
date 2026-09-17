@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, ActivityIndicator, TouchableOpacity, Alert } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { doc, deleteDoc } from "firebase/firestore";
-import { db } from "../../config/firebase";
+import { deleteContacto } from "../../services/contactos";
 import { useContacto } from "../../hooks/useContacto";
 
 export default function DetailScreen() {
@@ -23,7 +22,7 @@ export default function DetailScreen() {
                     onPress: async () => {
                         setEliminando(true);
                         try {
-                            await deleteDoc(doc(db, 'contactos', id));
+                            await deleteContacto(id);
                             router.back();
                         } catch (deleteError) {
                             Alert.alert(

@@ -43,12 +43,14 @@
 - Validación ejecutada: `npm run lint` sin errores tras los cambios (se corrigió también un error preexistente de la Fase 2 en `EditScreen.js`: `setState` síncrono dentro de un efecto).
 - No se pudo verificar visualmente en un dispositivo/emulador real en este entorno (búsqueda, pull-to-refresh y el nuevo estado de error de Home quedan pendientes de probar a mano).
 
-## Fase 4 — Calidad técnica
+## Fase 4 — Calidad técnica ✅ completada (alcance acordado con el usuario)
 
-- Tipar el proyecto (hay `tsconfig.json` y `.tsx` en componentes — evaluar migrar `app/(tabs)/*.js` a `.tsx`).
-- Extraer capa de datos (`services/contactos.js`) con las funciones `getContactos`, `getContacto`, `createContacto`, `updateContacto`, `deleteContacto` en vez de llamar Firestore directo desde cada componente.
-- Renombrar `HomeScreem.js` → `HomeScreen.js` (typo existente).
-- Añadir pruebas mínimas o al menos un smoke-test manual documentado.
+- Tipado ✅ (alcance reducido, decisión del usuario) — se descartó migrar `app/(tabs)/*.js` a `.tsx`; solo la nueva capa de datos quedó en TypeScript (`services/contactos.ts`), con un tipo `Contacto`/`ContactoInput` compartido. Las pantallas siguen en `.js` sin tipos, igual que antes.
+- Capa de datos ✅ — `services/contactos.ts` centraliza `getContactos`, `getContacto`, `createContacto`, `updateContacto`, `deleteContacto`. `hooks/useContactos.js`, `hooks/useContacto.js`, `AddScreen.js`, `EditScreen.js` y `DetailScreen.js` ya no llaman a Firestore (`addDoc`/`updateDoc`/`deleteDoc`/`getDoc`/`getDocs`) directamente, solo a estas funciones.
+- Rename ✅ — `HomeScreem.js` → `HomeScreen.js` (con `git mv` para conservar el historial), actualizado el `Stack.Screen name` en `app/(tabs)/_layout.js` y las referencias en `README.md` y las skills del repo (`mobile-frontend`, `ui-design`).
+- Pruebas ⏭️ omitidas — el usuario pidió no agregarlas por ahora (ni automatizadas ni smoke-test manual documentado). Queda pendiente si se retoma más adelante.
+- Validación ejecutada: `npm run lint` y `npx tsc --noEmit` sin errores.
+- No se pudo levantar el emulador/Expo Go en este entorno para confirmar visualmente que el rename y la nueva capa de datos no rompieron nada en tiempo de ejecución.
 
 ## Orden sugerido de ejecución
 

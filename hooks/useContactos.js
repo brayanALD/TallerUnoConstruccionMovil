@@ -1,7 +1,6 @@
 import { useCallback, useState } from 'react';
 import { useFocusEffect } from 'expo-router';
-import { collection, getDocs } from 'firebase/firestore';
-import { db } from '../config/firebase';
+import { getContactos } from '../services/contactos';
 
 // Encapsula la carga de la lista de contactos (loading/error/refetch)
 // para no repetir este patrón en cada pantalla que la necesite.
@@ -21,11 +20,7 @@ export function useContactos() {
         }
         setError(false);
         try {
-            const querySnapshot = await getDocs(collection(db, 'contactos'));
-            const lista = querySnapshot.docs.map((doc) => ({
-                id: doc.id,
-                ...doc.data(),
-            }));
+            const lista = await getContactos();
             setContactos(lista);
         } catch (err) {
             console.error("Error al obtener los contactos: ", err);

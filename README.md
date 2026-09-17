@@ -96,7 +96,7 @@ El archivo `.env` no se sube al repositorio (ver `.gitignore`); cada quien debe 
 ```
 app/
 ├── (tabs)/
-│   ├── HomeScreem.js     # Lista de contactos
+│   ├── HomeScreen.js     # Lista de contactos
 │   ├── AddScreen.js      # Formulario para agregar contacto
 │   ├── DetailScreen.js   # Detalle de un contacto
 │   └── _layout.js

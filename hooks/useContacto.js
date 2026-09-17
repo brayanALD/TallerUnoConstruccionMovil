@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../config/firebase';
+import { getContacto } from '../services/contactos';
 
 // Encapsula la carga de un contacto individual (loading/error/refetch)
 // para no repetir este patrón en DetailScreen y EditScreen.
@@ -13,9 +12,8 @@ export function useContacto(id) {
         setLoading(true);
         setError(false);
         try {
-            const docRef = doc(db, 'contactos', id);
-            const docSnap = await getDoc(docRef);
-            setContacto(docSnap.exists() ? { id: docSnap.id, ...docSnap.data() } : null);
+            const resultado = await getContacto(id);
+            setContacto(resultado);
         } catch (err) {
             console.error("Error al obtener el contacto: ", err);
             setError(true);

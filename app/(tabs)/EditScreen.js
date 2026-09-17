@@ -13,8 +13,7 @@ import {
 
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
-import { doc, updateDoc } from 'firebase/firestore';
-import { db } from '../../config/firebase';
+import { updateContacto } from '../../services/contactos';
 import { useContacto } from '../../hooks/useContacto';
 import { validarContacto } from '../../utils/validarContacto';
 
@@ -47,7 +46,7 @@ export default function EditScreen() {
 
         setGuardando(true);
         try {
-            await updateDoc(doc(db, 'contactos', id), {
+            await updateContacto(id, {
                 nombre: nombre.trim(),
                 telefono: telefono.trim(),
                 ciudad: ciudad.trim(),

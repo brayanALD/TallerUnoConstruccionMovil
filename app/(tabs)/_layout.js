@@ -4,7 +4,7 @@ export default function TabsLayout() {
     return (
     <Stack>
         <Stack.Screen
-        name="HomeScreem"
+        name="HomeScreen"
         options={{ headerShown: false }}
         />
 

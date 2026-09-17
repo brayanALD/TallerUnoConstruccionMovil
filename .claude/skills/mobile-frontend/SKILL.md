@@ -40,7 +40,7 @@ Al crear o modificar componentes y pantallas, ten en cuenta:
 - **Áreas seguras:** usa `SafeAreaView` / `useSafeAreaInsets` (si el proyecto ya los usa) en pantallas con contenido cerca de los bordes, notch o barra de estado.
 - **Teclado:** usa `KeyboardAvoidingView`/`ScrollView` con `keyboardShouldPersistTaps` en formularios para que el teclado no tape los inputs; considera `keyboardType` apropiado por campo (como ya se hace con `phone-pad`).
 - **Interacción táctil:** área táctil mínima razonable (~44x44), `activeOpacity`/feedback visual en elementos presionables, evita gestos ambiguos.
-- **Estados de carga/vacío/error:** todo consumo de datos remoto debe cubrir explícitamente los tres estados (loading, lista vacía, error de red), siguiendo el patrón ya usado en `HomeScreem.js`/`DetailScreen.js`.
+- **Estados de carga/vacío/error:** todo consumo de datos remoto debe cubrir explícitamente los tres estados (loading, lista vacía, error de red), siguiendo el patrón ya usado en `HomeScreen.js`/`DetailScreen.js`.
 - **Conectividad intermitente:** maneja el `catch` de las llamadas a Firestore con feedback al usuario (`Alert` o mensaje en pantalla), no falles en silencio.
 - **Accesibilidad:** agrega `accessibilityLabel`/`accessibilityRole`/`accessibilityHint` a elementos interactivos e imágenes cuando falten, sin sacrificarlos por apariencia visual. Verifica contraste de color razonable con los tokens/colores ya usados.
 - **Consistencia visual:** reutiliza colores, tipografías y espaciados ya presentes en `StyleSheet` de otras pantallas o en `constants/theme.ts` en vez de inventar nuevos valores.

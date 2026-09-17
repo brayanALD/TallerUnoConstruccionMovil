@@ -13,8 +13,7 @@ import {
 
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { collection, addDoc } from 'firebase/firestore';
-import { db } from '../../config/firebase';
+import { createContacto } from '../../services/contactos';
 import { validarContacto } from '../../utils/validarContacto';
 
 export default function AddScreen() {
@@ -34,8 +33,7 @@ export default function AddScreen() {
 
         setGuardando(true);
         try {
-            // Guardar el documento en la colección contactos
-            await addDoc(collection(db, 'contactos'), {
+            await createContacto({
                 nombre: nombre.trim(),
                 telefono: telefono.trim(),
                 ciudad: ciudad.trim(),

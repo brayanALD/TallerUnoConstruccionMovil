@@ -13,7 +13,7 @@ Prioridad siempre en este orden: **Usabilidad → Claridad → Consistencia → 
 
 ### 1. Auditar
 Antes de proponer nada, entiende el sistema visual que ya existe:
-- **Estilos:** cada pantalla define su propio `StyleSheet.create` (ver `app/(tabs)/HomeScreem.js`, `AddScreen.js`, `DetailScreen.js`). No hay CSS ni variables globales; el archivo `constants/theme.ts` define `Colors`/`Fonts` de la plantilla base de Expo pero **las pantallas de contactos no lo usan** — hardcodean sus propios valores (ej. `#8A2BE2`, `#1B1B1B`, `#EE82EE`, `rgba(255,255,255,0.50)`).
+- **Estilos:** cada pantalla define su propio `StyleSheet.create` (ver `app/(tabs)/HomeScreen.js`, `AddScreen.js`, `DetailScreen.js`). No hay CSS ni variables globales; el archivo `constants/theme.ts` define `Colors`/`Fonts` de la plantilla base de Expo pero **las pantallas de contactos no lo usan** — hardcodean sus propios valores (ej. `#8A2BE2`, `#1B1B1B`, `#EE82EE`, `rgba(255,255,255,0.50)`).
 - **Componentes reutilizables:** revisa `components/` y `components/ui/` (`themed-text.tsx`, `themed-view.tsx`, `icon-symbol`) antes de crear nada nuevo.
 - **Paleta implícita actual:** fondo oscuro `#1B1B1B`, acento morado `#8A2BE2`, acento secundario `#EE82EE`, texto blanco con opacidades (`rgba(255,255,255,0.50)`, `0.25`, `0.35`) para jerarquía secundaria. Identifica si un nuevo cambio encaja en esta paleta o si el usuario está pidiendo evolucionarla.
 - **Tipografía:** no hay fuente custom cargada; se usa la fuente del sistema con variaciones de `fontSize`/`fontWeight` (`24` título, `17-18` valores destacados, `14-16` cuerpo/labels).
