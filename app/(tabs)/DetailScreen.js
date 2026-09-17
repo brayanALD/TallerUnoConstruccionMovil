@@ -105,15 +105,14 @@ const styles = StyleSheet.create({
     card: {
         padding: 20,
         borderRadius: 12,
-        backgroundColor: "rgba(255, 255, 255, 0.25)",
+        backgroundColor: "rgba(255, 255, 255, 0.12)",
         borderWidth: 1,
         borderColor: "rgba(255, 255, 255, 0.50)",
-        elevation: 4,
     },
 
     label: {
         fontSize: 14,
-        color: "rgba(255, 255, 255, 0.50)",
+        color: "rgba(255, 255, 255, 0.65)",
         marginBottom: 5,
     },
 
@@ -140,7 +139,7 @@ const styles = StyleSheet.create({
     errorText: {
         fontSize: 16,
         fontWeight: "bold",
-        color: "#FF0000",
+        color: "#FF6B6B",
         textAlign: "center",
     },
 });

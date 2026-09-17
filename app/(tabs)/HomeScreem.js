@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
 
     card: {
         padding: 16,
-        backgroundColor: 'rgba(255, 255, 255, 0.25)',
+        backgroundColor: 'rgba(255, 255, 255, 0.12)',
         borderRadius: 10,
         marginBottom: 12,
         borderWidth: 1,
@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
 
     cardPhone: {
         fontSize: 14,
-        color: 'rgba(255, 255, 255, 0.50)',
+        color: 'rgba(255, 255, 255, 0.65)',
         marginTop: 5,
     },
 
