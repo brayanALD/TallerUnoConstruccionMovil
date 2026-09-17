@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
+import { useFocusEffect } from 'expo-router';
 import { getContacto } from '../services/contactos';
 
 // Encapsula la carga de un contacto individual (loading/error/refetch)
@@ -22,9 +23,14 @@ export function useContacto(id) {
         }
     }, [id]);
 
-    useEffect(() => {
-        fetchContacto();
-    }, [fetchContacto]);
+    // Vuelve a pedir el contacto cada vez que la pantalla recupera el foco,
+    // para que DetailScreen refleje los cambios guardados desde EditScreen
+    // (no se desmonta al navegar a Edit y volver).
+    useFocusEffect(
+        useCallback(() => {
+            fetchContacto();
+        }, [fetchContacto])
+    );
 
     return { contacto, loading, error, refetch: fetchContacto };
 }

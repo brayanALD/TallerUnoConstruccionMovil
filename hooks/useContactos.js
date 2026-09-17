@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useFocusEffect } from 'expo-router';
 import { getContactos } from '../services/contactos';
 
@@ -9,6 +9,7 @@ export function useContactos() {
     const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
     const [error, setError] = useState(false);
+    const haCargadoUnaVez = useRef(false);
 
     // `silent` evita reemplazar la lista por el spinner de pantalla completa,
     // para usarse con pull-to-refresh (RefreshControl) sobre datos ya visibles.
@@ -34,10 +35,14 @@ export function useContactos() {
         }
     }, []);
 
-    // Recargar los contactos cada vez que la pantalla pasa al primer plano
+    // Recargar los contactos cada vez que la pantalla pasa al primer plano.
+    // Solo la primera carga usa el spinner de pantalla completa; los
+    // refetches por foco posteriores (volver de Add/Edit/Detail) son
+    // silenciosos para no tapar la lista ni perder el scroll/la búsqueda.
     useFocusEffect(
         useCallback(() => {
-            fetchContactos();
+            fetchContactos({ silent: haCargadoUnaVez.current });
+            haCargadoUnaVez.current = true;
         }, [fetchContactos])
     );
 
