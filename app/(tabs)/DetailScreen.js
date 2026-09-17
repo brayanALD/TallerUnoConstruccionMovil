@@ -92,7 +92,9 @@ export default function DetailScreen() {
                 <View style={styles.separator} />
                 
                 <Text style={styles.label}>Ciudad</Text>
-                <Text style={styles.value}>{contacto.ciudad}</Text>
+                <Text style={contacto.ciudad ? styles.value : styles.valueVacio}>
+                    {contacto.ciudad || 'No especificada'}
+                </Text>
             </View>
 
             <TouchableOpacity
@@ -164,6 +166,12 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: "bold",
         color: COLORES.texto,
+    },
+
+    valueVacio: {
+        fontSize: 18,
+        fontStyle: "italic",
+        color: "rgba(255, 255, 255, 0.50)",
     },
 
     separator: {

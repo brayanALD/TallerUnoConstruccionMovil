@@ -130,9 +130,11 @@ export default function HomeScreen() {
                                 {item.telefono}
                             </Text>
 
-                            <Text style={styles.cardCity}>
-                                {item.ciudad}
-                            </Text>
+                            {item.ciudad ? (
+                                <Text style={styles.cardCity}>
+                                    {item.ciudad}
+                                </Text>
+                            ) : null}
                         </TouchableOpacity>
                     )}
                 />

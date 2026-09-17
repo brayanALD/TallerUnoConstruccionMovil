@@ -9,13 +9,14 @@ service cloud.firestore {
       // sin fecha de expiración y datos con forma arbitraria.
       allow read: if true;
 
+      // La ciudad es opcional: se sigue exigiendo el campo (como string,
+      // posiblemente vacío) para mantener la forma del documento consistente.
       allow create, update: if request.resource.data.keys().hasAll(['nombre', 'telefono', 'ciudad'])
         && request.resource.data.nombre is string
         && request.resource.data.nombre.size() >= 3
         && request.resource.data.telefono is string
         && request.resource.data.telefono.size() >= 7
-        && request.resource.data.ciudad is string
-        && request.resource.data.ciudad.size() >= 2;
+        && request.resource.data.ciudad is string;
 
       allow delete: if true;
     }

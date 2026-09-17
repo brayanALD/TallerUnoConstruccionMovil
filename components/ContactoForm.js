@@ -74,7 +74,7 @@ export default function ContactoForm({
 
                 <TextInput
                     ref={ciudadInputRef}
-                    placeholder="Ciudad"
+                    placeholder="Ciudad (opcional)"
                     placeholderTextColor="rgba(255, 255, 255, 0.50)"
                     value={ciudad}
                     onChangeText={onChangeCiudad}

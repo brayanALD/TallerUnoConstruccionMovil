@@ -10,8 +10,8 @@ export function validarContacto({ nombre, telefono, ciudad }) {
     const telefonoLimpio = telefono.trim();
     const ciudadLimpia = ciudad.trim();
 
-    if (!nombreLimpio || !telefonoLimpio || !ciudadLimpia) {
-        return 'Por favor diligencie todos los campos antes de guardar.';
+    if (!nombreLimpio || !telefonoLimpio) {
+        return 'Por favor diligencie el nombre y el teléfono antes de guardar.';
     }
 
     if (nombreLimpio.length < 3) {
@@ -23,7 +23,8 @@ export function validarContacto({ nombre, telefono, ciudad }) {
         return 'Ingrese un teléfono válido (solo dígitos, entre 7 y 15 números).';
     }
 
-    if (ciudadLimpia.length < 2) {
+    // La ciudad es opcional, pero si se diligencia debe tener un mínimo de caracteres.
+    if (ciudadLimpia && ciudadLimpia.length < 2) {
         return 'La ciudad debe tener al menos 2 caracteres.';
     }
 
