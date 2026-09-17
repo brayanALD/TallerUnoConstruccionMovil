@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ActivityIndicator, TouchableOpacity, Alert } fr
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { deleteContacto } from "../../services/contactos";
 import { useContacto } from "../../hooks/useContacto";
+import { estilosComunes } from "../../constants/estilosComunes";
 
 export default function DetailScreen() {
     const { id } = useLocalSearchParams();
@@ -56,8 +57,8 @@ export default function DetailScreen() {
     if (error) {
         return (
             <View style={styles.container}>
-                <View style={styles.errorCard}>
-                    <Text style={styles.errorText}>
+                <View style={estilosComunes.errorCard}>
+                    <Text style={estilosComunes.errorText}>
                         No se pudo cargar el contacto. Verifique su conexión.
                     </Text>
                 </View>
@@ -69,8 +70,8 @@ export default function DetailScreen() {
     if (!contacto) {
         return (
             <View style={styles.container}>
-                <View style={styles.errorCard}>
-                    <Text style={styles.errorText}>Contacto no encontrado.</Text>
+                <View style={estilosComunes.errorCard}>
+                    <Text style={estilosComunes.errorText}>Contacto no encontrado.</Text>
                 </View>
             </View>
         );
@@ -118,7 +119,7 @@ export default function DetailScreen() {
                 accessibilityLabel="Eliminar contacto"
             >
                 {eliminando ? (
-                    <View style={styles.loadingContainer}>
+                    <View style={estilosComunes.loadingContainer}>
                         <ActivityIndicator color="#FFFFFF" size="small" />
                         <Text style={styles.deleteButtonText}>Eliminando...</Text>
                     </View>
@@ -170,21 +171,6 @@ const styles = StyleSheet.create({
         marginVertical: 16,
     },
 
-    errorCard: {
-        padding: 20,
-        borderRadius: 12,
-        backgroundColor: "rgba(255, 0, 0, 0.15)",
-        borderWidth: 1,
-        borderColor: "#FF0000",
-    },
-
-    errorText: {
-        fontSize: 16,
-        fontWeight: "bold",
-        color: "#FF6B6B",
-        textAlign: "center",
-    },
-
     editButton: {
         backgroundColor: '#8A2BE2',
         paddingVertical: 15,
@@ -224,12 +210,5 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
         textAlign: 'center',
-    },
-
-    loadingContainer: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        gap: 10,
     },
 });

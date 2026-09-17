@@ -12,6 +12,7 @@ import {
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useContactos } from '../../hooks/useContactos';
+import { estilosComunes } from '../../constants/estilosComunes';
 
 export default function HomeScreen() {
     const router = useRouter();
@@ -68,8 +69,8 @@ export default function HomeScreen() {
             ) : error ? (
                 /* Mensaje y reintento si falló la consulta */
                 <View style={styles.errorContainer}>
-                    <View style={styles.errorCard}>
-                        <Text style={styles.errorText}>
+                    <View style={[estilosComunes.errorCard, styles.errorCardFullWidth]}>
+                        <Text style={estilosComunes.errorText}>
                             No se pudo cargar la lista de contactos.
                         </Text>
                     </View>
@@ -218,20 +219,8 @@ const styles = StyleSheet.create({
         marginTop: 30,
     },
 
-    errorCard: {
+    errorCardFullWidth: {
         width: '100%',
-        padding: 20,
-        borderRadius: 12,
-        backgroundColor: 'rgba(255, 0, 0, 0.15)',
-        borderWidth: 1,
-        borderColor: '#FF0000',
-    },
-
-    errorText: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        color: '#FF6B6B',
-        textAlign: 'center',
     },
 
     retryButton: {
