@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 import { useRouter, useLocalSearchParams } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../config/firebase';
 import { useContacto } from '../../hooks/useContacto';
@@ -27,15 +27,16 @@ export default function EditScreen() {
     const [telefono, setTelefono] = useState('');
     const [ciudad, setCiudad] = useState('');
     const [guardando, setGuardando] = useState(false);
+    const [formInicializado, setFormInicializado] = useState(false);
 
-    // Precargar el formulario una vez que el contacto termina de cargar
-    useEffect(() => {
-        if (contacto) {
-            setNombre(contacto.nombre ?? '');
-            setTelefono(contacto.telefono ?? '');
-            setCiudad(contacto.ciudad ?? '');
-        }
-    }, [contacto]);
+    // Precargar el formulario apenas el contacto termina de cargar, sin pasar
+    // por un efecto (evita el render en cascada que marca react-hooks/set-state-in-effect)
+    if (contacto && !formInicializado) {
+        setNombre(contacto.nombre ?? '');
+        setTelefono(contacto.telefono ?? '');
+        setCiudad(contacto.ciudad ?? '');
+        setFormInicializado(true);
+    }
 
     const handleSave = async () => {
         const mensajeError = validarContacto({ nombre, telefono, ciudad });

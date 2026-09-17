@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import {
     View,
     Text,
+    TextInput,
     FlatList,
     TouchableOpacity,
     StyleSheet,
     ActivityIndicator,
+    RefreshControl,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -14,7 +16,19 @@ import { useContactos } from '../../hooks/useContactos';
 export default function HomeScreen() {
     const router = useRouter();
     const insets = useSafeAreaInsets();
-    const { contactos, loading, error, refetch } = useContactos();
+    const { contactos, loading, refreshing, error, refetch } = useContactos();
+    const [busqueda, setBusqueda] = useState('');
+
+    const contactosFiltrados = useMemo(() => {
+        const query = busqueda.trim().toLowerCase();
+        if (!query) {
+            return contactos;
+        }
+        return contactos.filter((contacto) =>
+            [contacto.nombre, contacto.telefono, contacto.ciudad]
+                .some((campo) => (campo ?? '').toLowerCase().includes(query))
+        );
+    }, [contactos, busqueda]);
 
     return (
         <View style={[styles.container, { paddingTop: insets.top + 16 }]}>
@@ -30,6 +44,20 @@ export default function HomeScreen() {
                 </Text>
             </TouchableOpacity>
 
+            {/* Búsqueda por nombre, teléfono o ciudad */}
+            {!loading && !error && contactos.length > 0 && (
+                <TextInput
+                    placeholder="Buscar por nombre, teléfono o ciudad"
+                    placeholderTextColor="rgba(255, 255, 255, 0.50)"
+                    value={busqueda}
+                    onChangeText={setBusqueda}
+                    style={styles.searchInput}
+                    accessibilityLabel="Buscar contacto"
+                    returnKeyType="search"
+                    autoCorrect={false}
+                />
+            )}
+
             {/* Indicador de carga mientras consulta Firestore */}
             {loading ? (
                 <ActivityIndicator
@@ -40,9 +68,11 @@ export default function HomeScreen() {
             ) : error ? (
                 /* Mensaje y reintento si falló la consulta */
                 <View style={styles.errorContainer}>
-                    <Text style={styles.emptyText}>
-                        No se pudo cargar la lista de contactos.
-                    </Text>
+                    <View style={styles.errorCard}>
+                        <Text style={styles.errorText}>
+                            No se pudo cargar la lista de contactos.
+                        </Text>
+                    </View>
                     <TouchableOpacity
                         style={styles.retryButton}
                         onPress={refetch}
@@ -56,12 +86,25 @@ export default function HomeScreen() {
             ) : contactos.length === 0 ? (
                 /* Mensaje si la colección está vacía */
                 <Text style={styles.emptyText}>No hay contactos registrados.</Text>
+            ) : contactosFiltrados.length === 0 ? (
+                /* Mensaje si la búsqueda no arroja resultados */
+                <Text style={styles.emptyText}>
+                    No se encontraron contactos que coincidan con {'"'}{busqueda.trim()}{'"'}.
+                </Text>
             ) : (
                 /* Renderizado con FlatList para desplazamiento eficiente */
                 <FlatList
-                    data={contactos}
+                    data={contactosFiltrados}
                     keyExtractor={(item) => item.id}
                     showsVerticalScrollIndicator={false}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={() => refetch({ silent: true })}
+                            tintColor="#8A2BE2"
+                            colors={['#8A2BE2']}
+                        />
+                    }
                     renderItem={({ item }) => (
                         <TouchableOpacity
                             style={styles.card}
@@ -125,6 +168,17 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
 
+    searchInput: {
+        backgroundColor: 'rgba(255, 255, 255, 0.10)',
+        borderWidth: 1,
+        borderColor: 'rgba(255, 255, 255, 0.35)',
+        borderRadius: 10,
+        padding: 14,
+        marginBottom: 16,
+        color: '#FFFFFF',
+        fontSize: 16,
+    },
+
     card: {
         padding: 16,
         backgroundColor: 'rgba(255, 255, 255, 0.12)',
@@ -162,6 +216,22 @@ const styles = StyleSheet.create({
     errorContainer: {
         alignItems: 'center',
         marginTop: 30,
+    },
+
+    errorCard: {
+        width: '100%',
+        padding: 20,
+        borderRadius: 12,
+        backgroundColor: 'rgba(255, 0, 0, 0.15)',
+        borderWidth: 1,
+        borderColor: '#FF0000',
+    },
+
+    errorText: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: '#FF6B6B',
+        textAlign: 'center',
     },
 
     retryButton: {

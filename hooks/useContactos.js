@@ -8,10 +8,17 @@ import { db } from '../config/firebase';
 export function useContactos() {
     const [contactos, setContactos] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [refreshing, setRefreshing] = useState(false);
     const [error, setError] = useState(false);
 
-    const fetchContactos = useCallback(async () => {
-        setLoading(true);
+    // `silent` evita reemplazar la lista por el spinner de pantalla completa,
+    // para usarse con pull-to-refresh (RefreshControl) sobre datos ya visibles.
+    const fetchContactos = useCallback(async ({ silent = false } = {}) => {
+        if (silent) {
+            setRefreshing(true);
+        } else {
+            setLoading(true);
+        }
         setError(false);
         try {
             const querySnapshot = await getDocs(collection(db, 'contactos'));
@@ -24,7 +31,11 @@ export function useContactos() {
             console.error("Error al obtener los contactos: ", err);
             setError(true);
         } finally {
-            setLoading(false);
+            if (silent) {
+                setRefreshing(false);
+            } else {
+                setLoading(false);
+            }
         }
     }, []);
 
@@ -35,5 +46,5 @@ export function useContactos() {
         }, [fetchContactos])
     );
 
-    return { contactos, loading, error, refetch: fetchContactos };
+    return { contactos, loading, refreshing, error, refetch: fetchContactos };
 }
