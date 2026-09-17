@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import {
     View,
     Text,
@@ -27,6 +28,9 @@ export default function ContactoForm({
     onSave,
     onCancel,
 }) {
+    const telefonoInputRef = useRef(null);
+    const ciudadInputRef = useRef(null);
+
     return (
         <KeyboardAvoidingView
             style={styles.container}
@@ -48,9 +52,13 @@ export default function ContactoForm({
                     style={styles.input}
                     editable={!guardando}
                     accessibilityLabel="Nombre completo"
+                    returnKeyType="next"
+                    blurOnSubmit={false}
+                    onSubmitEditing={() => telefonoInputRef.current?.focus()}
                 />
 
                 <TextInput
+                    ref={telefonoInputRef}
                     placeholder="Teléfono"
                     placeholderTextColor="rgba(255, 255, 255, 0.50)"
                     value={telefono}
@@ -59,9 +67,13 @@ export default function ContactoForm({
                     style={styles.input}
                     editable={!guardando}
                     accessibilityLabel="Teléfono"
+                    returnKeyType="next"
+                    blurOnSubmit={false}
+                    onSubmitEditing={() => ciudadInputRef.current?.focus()}
                 />
 
                 <TextInput
+                    ref={ciudadInputRef}
                     placeholder="Ciudad"
                     placeholderTextColor="rgba(255, 255, 255, 0.50)"
                     value={ciudad}
@@ -69,6 +81,8 @@ export default function ContactoForm({
                     style={styles.input}
                     editable={!guardando}
                     accessibilityLabel="Ciudad"
+                    returnKeyType="done"
+                    onSubmitEditing={onSave}
                 />
 
                 <TouchableOpacity
